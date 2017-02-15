@@ -1,0 +1,70 @@
+<html>
+  <style>
+    div.box{
+        position: relative;
+        width: 400px;
+        height: 200px;
+        border: 3px solid #73AD21;   
+    }
+    div.change {
+    	position: absolute;
+    } 
+  </style>
+    
+  <p1 id="gameover"></p1>
+    
+    <div class="box">
+        
+    <p id="score"></p>
+        
+    </div>
+
+  <div id="change" class="change">
+      
+    <button onClick="addPoints()">Click Me</button>
+      
+  </div>
+    
+  <script>
+      
+    function addPoints(){ 
+      var score = parseInt(localStorage.getItem("score"));
+      var time = parseInt(localStorage.getItem("score"));
+        
+      score = score + 100;
+      time = time - time;
+      time = time + 3000;
+        
+      localStorage.setItem("time", time);
+      localStorage.setItem("score", score);
+      document.getElementById("score").innerHTML = score;
+      movingButton();
+    }
+      
+    function countdown(){
+       var time = parseInt(localStorage.getItem("time"));
+       var timer;
+       timer = setInterval(timeUp, time); 
+    }
+      
+    function timeUp(){
+        var gameover = "Gameover";
+        document.getElementById("gameover").innerHTML = gameover;
+        var score = 0;
+        localStorage.setItem("score", score);
+    }
+    
+    function movingButton(){
+    	document.getElementById("change").style.top = Math.floor((Math.random() * 300) + 1);
+    	document.getElementById("change").style.left = Math.floor((Math.random() * 300) + 1);
+        countdown();
+    } 
+      
+    countdown();
+    var score = 0;
+    var time = 3000;
+    localStorage.setItem("time", time);
+    localStorage.setItem("score", score);
+
+  </script>
+</html>
