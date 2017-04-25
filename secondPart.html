@@ -1,0 +1,60 @@
+<html>
+<style>
+    div.change {
+        position: absolute;
+    }
+</style>
+
+<p id="score"></p>
+
+<div id="change" class="change">
+    <button onClick="addPoints()">Click Me</button>
+</div>
+
+<script>
+    function addPoints(){
+        var time = parseInt(localStorage.getItem("time"));
+        var score = parseInt(localStorage.getItem("score"));
+        var move = 0;
+        score = score + 100;
+        time = time -50;
+        if(score == 500){
+            location.replace("https://clickthebutton.github.io/secondPart.html")
+        }
+        localStorage.setItem("score", score);
+        localStorage.setItem("time", time);
+        localStorage.setItem("move", move);
+        document.getElementById("score").innerHTML = score;
+        movingButton();
+    }
+
+    function countdown(){
+        var move = parseInt(localStorage.getItem("move"));
+        var time = parseInt(localStorage.getItem("time"));
+
+        while(time > 1){
+            move = move + 1;
+            time = time -1;
+            if(time == 1){
+                window.localStorage.clear("score");
+            }
+        }
+
+        if(move == 200){
+            move = move - 200;
+            movingButton();
+        }
+    }
+    function movingButton(){
+        document.getElementById("change").style.top = Math.floor((Math.random() * 300) + 1);
+        document.getElementById("change").style.left = Math.floor((Math.random() * 300) + 1);
+    }
+    countdown();
+    var move = 0;
+    var score = 0;
+    var time = 2000;
+    localStorage.setItem("time", time);
+    localStorage.setItem("score", score);
+    localStorage.setItem("move", move);
+</script>
+</html>
