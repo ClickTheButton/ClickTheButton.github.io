@@ -1,60 +1,110 @@
+<!--
+============================================================
+Capturing The Mouse Position in IE4-6 & NS4-6
+(C) 2000 www.CodeLifter.com
+Free for all users, but leave in this  header
+//-->
+
 <html>
 <style>
-    div.change {
+    div.change{
         position: absolute;
+        top: 100px;
+        left: 100px;
     }
 </style>
+<body>
 
-<p id="score"></p>
-
+<form name="Show">
+    <input type="text" name="MouseX" value="0" size="4"> X<br>
+    <input type="text" name="MouseY" value="0" size="4"> Y<br>
+</form>
 <div id="change" class="change">
-    <button onClick="addPoints()">Click Me</button>
+    <button onclick="LoadPage()">Click Me</button>
 </div>
 
-<script>
-    function addPoints(){
-        var time = parseInt(localStorage.getItem("time"));
-        var score = parseInt(localStorage.getItem("score"));
-        var move = 0;
-        score = score + 100;
-        time = time -50;
-        if(score == 500){
-            location.replace("https://clickthebutton.github.io/secondPart.html")
+<script language="JavaScript1.2">
+    var oldTempX = 0;
+    var spotToMove = 0;
+    var TopVar = 100;
+    var LeftVar = 100;
+
+    var IE = document.all?true:false;
+
+    if (!IE) document.captureEvents(Event.MOUSEMOVE);
+
+    document.onmousemove = getMouseXY;
+
+    var tempX = 0;
+    var tempY = 0;
+
+
+    function getMouseXY(e) {
+        if (IE) { // grab the x-y pos.s if browser is IE
+            tempX = event.clientX + document.body.scrollLeft;
+            tempY = event.clientY + document.body.scrollTop
+        } else {  // grab the x-y pos.s if browser is NS
+            tempX = e.pageX;
+            tempY = e.pageY;
         }
-        localStorage.setItem("score", score);
-        localStorage.setItem("time", time);
-        localStorage.setItem("move", move);
-        document.getElementById("score").innerHTML = score;
-        movingButton();
+        // catch possible negative values in NS4
+        if (tempX < 0){tempX = 0}
+        if (tempY < 0){tempY = 0}
+        // show the position values in the form named Show
+        // in the text fields named MouseX and MouseY
+        document.Show.MouseX.value = tempX;
+        document.Show.MouseY.value = tempY;
+        checkspot();
+        return true
     }
 
-    function countdown(){
-        var move = parseInt(localStorage.getItem("move"));
-        var time = parseInt(localStorage.getItem("time"));
+    //That code is not mine above
+    //The code below is mine
 
-        while(time > 1){
-            move = move + 1;
-            time = time -1;
-            if(time == 1){
-                window.localStorage.clear("score");
+    function checkspot() {
+            //Checks spot 1
+            if(tempX > 99){
+                if(tempX < 165){
+                    if(tempY > 99){
+                        if(tempY < 121){
+                            spotToMove = spotToMove - spotToMove;
+                            spotToMove = spotToMove + Math.floor((Math.random() * 5) + 2);
+                            if(spotToMove == 2){
+                                TopVar = TopVar -20;
+                                moveButton();
+                            }
+                            else if(spotToMove == 3){
+                                LeftVar = LeftVar -65;
+                                moveButton();
+                            }
+                            else if(spotToMove == 4){
+                                LeftVar = LeftVar +65;
+                                moveButton();
+                            }
+                            else if(spotToMove == 5){
+                                TopVar = TopVar +20;
+                                moveButton();
+                            }
+                        }
+                    }
+                }
             }
-        }
+            //done checking spot 1
 
-        if(move == 200){
-            move = move - 200;
-            movingButton();
-        }
+            //Put Code Here
+
     }
-    function movingButton(){
-        document.getElementById("change").style.top = Math.floor((Math.random() * 300) + 1);
-        document.getElementById("change").style.left = Math.floor((Math.random() * 300) + 1);
+    function moveButton() {
+        document.getElementById("change").style.top = TopVar;
+        document.getElementById("change").style.left = LeftVar;
     }
-    countdown();
-    var move = 0;
-    var score = 0;
-    var time = 2000;
-    localStorage.setItem("time", time);
-    localStorage.setItem("score", score);
-    localStorage.setItem("move", move);
+    function LoadPage() {
+        location.replace();
+    }
+    function start() {
+
+    }
+    start();
 </script>
+</body>
 </html>
